@@ -66,7 +66,7 @@ def open_csv(data_storage):
 
 if __name__ == "__main__":
     root = tk.Tk()
-
+    root.title("URFU DEAN'S HELPER")
     data_storage = DataStorage()
     name_entry = make_label(root, "Введите ФИО студента:")
     email_entry = make_label(root, "Введите электронную почту студента:")
