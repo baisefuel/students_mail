@@ -1,6 +1,5 @@
 from email.mime.text import MIMEText
 from base64 import urlsafe_b64encode
-from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from email.mime.text import MIMEText

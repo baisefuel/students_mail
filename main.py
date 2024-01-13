@@ -64,6 +64,27 @@ def open_csv(data_storage):
         except pd.errors.EmptyDataError:
             print('CSV файл пуст')
 
+def open_xls(data_storage):
+    filename = filedialog.askopenfilename(filetypes=[("Excel files", "*.xls;*.xlsx")])
+    our_email = 'urfu-123@urfu-123.iam.gserviceaccount.com'
+    subject = "Долги перед УрФУ"
+    
+    if filename:
+        file_xls = pd.read_excel(filename)
+        file_xls = file_xls.astype(str)
+        try:
+            for columns, rows in file_xls.iterrows():
+                row_list = rows.values.tolist()
+                print(*row_list)
+                body = f"Уважаемый {row_list[0]}, \n "\
+                    f"Ваша задолженность перед Уральским Федеральным Университетом составляет {row_list[2]} рублей \n "\
+                    f"Требуем погасить долг до {row_list[3]} \n" \
+                    f"\n С уважением, деканат ИРИТ-РТФ'"
+                print(body)
+                send_email(our_email, row_list[1], subject, body)
+        except pd.errors.EmptyDataError:
+            print('Excel файл пуст')
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("URFU DEAN'S HELPER")
@@ -74,7 +95,8 @@ if __name__ == "__main__":
     deadline_fine_entry = make_label(root, "Введите дедлайн задолженности:")
     button = tk.Button(root, text="Подтвердить", command=lambda: get_entries(data_storage, name_entry, email_entry, count_fine_entry, deadline_fine_entry))
     button.pack()
-
+    openxl_button = tk.Button(root, text="Открыть XLS", command=lambda: open_xls(data_storage))
+    openxl_button.pack()
     open_button = tk.Button(root, text="Открыть CSV", command=lambda: open_csv(data_storage))
     open_button.pack()
     root.mainloop()
